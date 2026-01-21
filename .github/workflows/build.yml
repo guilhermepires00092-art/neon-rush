@@ -1,0 +1,30 @@
+name: Build Android APK
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install Cordova
+        run: npm install -g cordova
+      - name: Create Project
+        run: |
+          cordova create app com.temp.id TempName
+          cp config.xml app/
+          cp -r www/* app/www/
+          cd app
+          cordova platform add android
+          cordova plugin add cordova-plugin-admob-free --save
+          cordova build android --release --no-telemetry
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: neon-rush-apk
+          path: app/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk

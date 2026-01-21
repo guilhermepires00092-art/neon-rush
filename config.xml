@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.seuamigo.neonrush" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Neon Rush: 67 Aura</name>
+    <description>O jogo mais difícil de reflexo e aura.</description>
+    <author email="seuemail@gmail.com" href="http://seusite.com">Seu Nome</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <preference name="Orientation" value="portrait" />
+        <preference name="FullScreen" value="true" />
+        <preference name="AndroidXEnabled" value="true" />
+    </platform>
+    <plugin name="cordova-plugin-admob-free" spec="^0.27.0">
+        <variable name="ADMOB_APP_ID" value="ca-app-pub-3940256099942544~3347511713" />
+    </plugin>
+</widget>
