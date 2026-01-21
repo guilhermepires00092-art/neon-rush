@@ -8,21 +8,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # -- CORREÇÃO: Configura o Java 17 (Obrigatório para Android moderno) --
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
+
       - name: Install Cordova
         run: npm install -g cordova
+
       - name: Create Project
         run: |
           cordova create app com.temp.id TempName
           cp config.xml app/
           cp -r www/* app/www/
           cd app
-          cordova platform add android
+          
+          # -- CORREÇÃO: Usa Android 12 fixo (Mais estável com AdMob) --
+          cordova platform add android@12.0.0
+          
           cordova plugin add cordova-plugin-admob-free --save
+          
+          # Garante que as licenças do Google sejam aceitas
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          
           cordova build android --release --no-telemetry
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
