@@ -12,8 +12,11 @@
         <preference name="Orientation" value="portrait" />
         <preference name="FullScreen" value="true" />
         <preference name="AndroidXEnabled" value="true" />
+        <preference name="GradlePluginGoogleServicesEnabled" value="true" />
+        <preference name="GradlePluginKotlinEnabled" value="true" />
     </platform>
-    <plugin name="cordova-plugin-admob-free" spec="^0.27.0">
-        <variable name="ADMOB_APP_ID" value="ca-app-pub-3940256099942544~3347511713" />
+    <!-- PLUGIN NOVO E FUNCIONAL -->
+    <plugin name="admob-plus-cordova" spec="^1.28.0">
+        <variable name="APP_ID_ANDROID" value="ca-app-pub-3940256099942544~3347511713" />
     </plugin>
 </widget>

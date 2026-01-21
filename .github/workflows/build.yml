@@ -9,16 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Configura Java 17 (Obrigatório)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # --- A CORREÇÃO MÁGICA ---
-      # O GitHub está usando Gradle 9, que quebra o Cordova.
-      # Aqui forçamos o uso do Gradle 8.5 que funciona.
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
@@ -39,15 +35,17 @@ jobs:
           cp -r www/* app/www/
           cd app
           
-          # Usa Android 12 (Estável)
+          # Android 12
           cordova platform add android@12.0.0
           
-          cordova plugin add cordova-plugin-admob-free --save
+          # Instala o plugin novo
+          cordova plugin add admob-plus-cordova --save --variable APP_ID_ANDROID="ca-app-pub-3940256099942544~3347511713"
           
-          # Aceita licenças do Google para não travar
+          # Aceita licenças
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           
-          cordova build android --release --no-telemetry
+          # --packageType=apk garante que saia o arquivo instalável direto
+          cordova build android --release --packageType=apk --no-telemetry
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
