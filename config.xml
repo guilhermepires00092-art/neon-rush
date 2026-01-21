@@ -12,6 +12,9 @@
         <preference name="Orientation" value="portrait" />
         <preference name="FullScreen" value="true" />
         <preference name="AndroidXEnabled" value="true" />
-        <preference name="GradlePluginGoogleServicesEnabled" value="true" />
     </platform>
+    <!-- PLUGIN SALVADOR DA PÁTRIA (Mantido pela comunidade) -->
+    <plugin name="cordova-plugin-admob-free" spec="https://github.com/ravenwatch/cordova-plugin-admob-free">
+        <variable name="ADMOB_APP_ID" value="ca-app-pub-3940256099942544~3347511713" />
+    </plugin>
 </widget>

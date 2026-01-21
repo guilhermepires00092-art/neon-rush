@@ -9,21 +9,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Java 11 é o "velho de guerra" que funciona com plugins clássicos
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '11'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: '8.5'
+          gradle-version: '7.6'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 16.x
 
       - name: Install Cordova
         run: npm install -g cordova
@@ -35,20 +36,16 @@ jobs:
           cp -r www/* app/www/
           cd app
           
-          # Android 12 (Compatível com Google Play)
-          cordova platform add android@12.0.0
+          # Android 11 (Versão 10.1.2) - Mais compatível com o código antigo
+          cordova platform add android@10.1.2
           
-          # --- AQUI ESTÁ A CORREÇÃO ---
-          # 1. Instala o Adapter para evitar erro de AndroidX
-          cordova plugin add cordova-plugin-androidx-adapter
+          # Instala o plugin "Ravenwatch" direto do GitHub
+          cordova plugin add https://github.com/ravenwatch/cordova-plugin-admob-free --save --variable ADMOB_APP_ID="ca-app-pub-3940256099942544~3347511713"
           
-          # 2. Instala o AdMob Novo
-          cordova plugin add admob-plus-cordova --save --variable APP_ID_ANDROID="ca-app-pub-3940256099942544~3347511713"
-          
-          # Aceita licenças
+          # Aceita as licenças
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           
-          # Compila gerando APK
+          # Compila
           cordova build android --release --packageType=apk --no-telemetry
 
       - name: Upload APK
