@@ -9,12 +9,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # -- CORREÇÃO: Configura o Java 17 (Obrigatório para Android moderno) --
+      # Configura Java 17 (Obrigatório)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      # --- A CORREÇÃO MÁGICA ---
+      # O GitHub está usando Gradle 9, que quebra o Cordova.
+      # Aqui forçamos o uso do Gradle 8.5 que funciona.
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.5'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,12 +39,12 @@ jobs:
           cp -r www/* app/www/
           cd app
           
-          # -- CORREÇÃO: Usa Android 12 fixo (Mais estável com AdMob) --
+          # Usa Android 12 (Estável)
           cordova platform add android@12.0.0
           
           cordova plugin add cordova-plugin-admob-free --save
           
-          # Garante que as licenças do Google sejam aceitas
+          # Aceita licenças do Google para não travar
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           
           cordova build android --release --no-telemetry
