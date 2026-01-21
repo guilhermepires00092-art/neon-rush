@@ -13,10 +13,5 @@
         <preference name="FullScreen" value="true" />
         <preference name="AndroidXEnabled" value="true" />
         <preference name="GradlePluginGoogleServicesEnabled" value="true" />
-        <preference name="GradlePluginKotlinEnabled" value="true" />
     </platform>
-    <!-- PLUGIN NOVO E FUNCIONAL -->
-    <plugin name="admob-plus-cordova" spec="^1.28.0">
-        <variable name="APP_ID_ANDROID" value="ca-app-pub-3940256099942544~3347511713" />
-    </plugin>
 </widget>

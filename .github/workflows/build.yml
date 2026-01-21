@@ -35,16 +35,20 @@ jobs:
           cp -r www/* app/www/
           cd app
           
-          # Android 12
+          # Android 12 (Compatível com Google Play)
           cordova platform add android@12.0.0
           
-          # Instala o plugin novo
+          # --- AQUI ESTÁ A CORREÇÃO ---
+          # 1. Instala o Adapter para evitar erro de AndroidX
+          cordova plugin add cordova-plugin-androidx-adapter
+          
+          # 2. Instala o AdMob Novo
           cordova plugin add admob-plus-cordova --save --variable APP_ID_ANDROID="ca-app-pub-3940256099942544~3347511713"
           
           # Aceita licenças
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           
-          # --packageType=apk garante que saia o arquivo instalável direto
+          # Compila gerando APK
           cordova build android --release --packageType=apk --no-telemetry
 
       - name: Upload APK
